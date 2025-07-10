@@ -1,13 +1,27 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Profile</title>
-</head>
-<body>
+{% extends "base.html" %}
 
-</body>
-</html>
+{% block content %}
+<div style="max-width: 600px; margin: 0 auto; padding: 2rem; text-align: center;">
+    <h2>{{ user.username }}'s Profile</h2>
+
+    {% if user.userprofile.profile_pic %}
+        <img src="{{ user.userprofile.profile_pic.url }}" alt="Profile Picture"
+             style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover;">
+    {% else %}
+        <img src="{{ MEDIA_URL }}default.jpg" alt="Default Profile Picture"
+             style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover;">
+    {% endif %}
+
+    <div style="margin-top: 1rem;">
+        <p><strong>Bio:</strong></p>
+        <p>{{ user.userprofile.bio|default:"No bio available." }}</p>
+    </div>
+
+    <div style="margin-top: 2rem;">
+        <a href="{% url 'edit_profile' %}"
+           style="padding: 0.5rem 1rem; background-color: #007BFF; color: white; text-decoration: none; border-radius: 5px;">
+            Edit Profile
+        </a>
+    </div>
+</div>
+{% endblock %}
