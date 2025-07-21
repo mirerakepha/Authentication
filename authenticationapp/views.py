@@ -3,6 +3,7 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.shortcuts import render, redirect
 from .forms import ProfileForm
+from .models import Profile
 
 # Home page view
 def home(request):
@@ -35,6 +36,7 @@ def login_view(request):
 # Profile view
 @login_required
 def profile(request):
+    profile = Profile.objects.get(user=request.user)
     return render(request, 'profile.html')
 
 # Edit profile view
