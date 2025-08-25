@@ -1,27 +1,28 @@
-{% extends "base.html" %}
+{% extends 'base.html'% }
+{%load crispy_forms_tags %}
+{%block content%}
+<div class="content-section">
+    <div class="media">
+        <img class="rounded-circle account-img" src="{{}}" alt="">
+        <div class="media-body">
+            <h2 class="account-heading">{{user.username}}</h2>
+            <p class="text-secondary">{{user.email}}</p>
 
-{% block content %}
-<div style="max-width: 600px; margin: 0 auto; padding: 2rem; text-align: center;">
-    <h2>{{ user.username }}'s Profile</h2>
+        </div>
 
-    {% if user.userprofile.profile_pic %}
-        <img src="{{ user.userprofile.profile_pic.url }}" alt="Profile Picture"
-             style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover;">
-    {% else %}
-        <img src="{{ MEDIA_URL }}default.jpg" alt="Default Profile Picture"
-             style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover;">
-    {% endif %}
-
-    <div style="margin-top: 1rem;">
-        <p><strong>Bio:</strong></p>
-        <p>{{ user.userprofile.bio|default:"No bio available." }}</p>
     </div>
 
-    <div style="margin-top: 2rem;">
-        <a href="{% url 'edit_profile' %}"
-           style="padding: 0.5rem 1rem; background-color: #007BFF; color: white; text-decoration: none; border-radius: 5px;">
-            Edit Profile
-        </a>
-    </div>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4">Profile Info</legend>
+            {{ u_form|crispy }}
+            {{ p_form|crispy }}
+        </fieldset>
+        <div class="form-group">
+            <button class="btn btn-outline-info" type="submit">Update</button>
+        </div>
+    </form>
+    
 </div>
-{% endblock %}
+{% endblock content %}

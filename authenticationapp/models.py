@@ -1,5 +1,5 @@
 from django.db import models
-
+from PIL import Image
 # Create your models here.
 
 
@@ -14,7 +14,11 @@ class Profile(models.Model):
     bio = models.TextField(blank=True)
 
     def __str__(self):
-        return f"{self.user.username}'s profile"
+        return f'{self.user.username} profile'
+
+    def save_profile(self):
+        super().save()
+
 
   # Automatically create or update user profile when the User is saved
 @receiver(post_save, sender=User)
