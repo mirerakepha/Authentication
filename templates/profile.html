@@ -1,27 +1,61 @@
-{% extends "base.html" %}
-{% load crispy_forms_tags %}
-
-{% block content %}
-<div class="content-section">
-    <div class="media">
-        <img class="rounded-circle account-img" src="{{ user.profile.image.url }}" alt="Profile picture">
-        <div class="media-body">
-            <h2 class="account-heading">{{ user.username }}</h2>
-            <p class="text-secondary">{{ user.email }}</p>
-            <p>{{ user.profile.bio }}</p>
-        </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+    {% load static %}
+  <title>Profile</title>
+  <style>
+    body { font-family: sans-serif; margin: 2rem; background: #f8fafc; }
+    .profile-container {
+      max-width: 600px;
+      margin: auto;
+      background: white;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .profile-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .profile-header img {
+      width: 100px; height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #ddd;
+    }
+    .profile-info h2 { margin: 0; }
+    .edit-btn {
+      display: inline-block;
+      margin-top: 1rem;
+      padding: .5rem 1rem;
+      background: #38bdf8;
+      color: white;
+      border-radius: 6px;
+      text-decoration: none;
+    }
+    .edit-btn:hover { background: #0ea5e9; }
+  </style>
+</head>
+<body>
+  <div class="profile-container">
+    <div class="profile-header">
+      {% if user.profile.image %}
+        <img src="{{ user.profile.image.url }}" alt="Profile picture">
+      {% else %}
+        <img src="{% static 'default.jpg' %}" alt="Default picture">
+      {% endif %}
+      <div class="profile-info">
+        <h2>{{ user.username }}</h2>
+        <p>{{ user.email }}</p>
+      </div>
     </div>
-
-    <form method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        <fieldset class="form-group">
-            <legend class="border-bottom mb-4">Edit Profile</legend>
-            {{ u_form|crispy }}
-            {{ p_form|crispy }}
-        </fieldset>
-        <div class="form-group">
-            <button class="btn btn-outline-info" type="submit">Update</button>
-        </div>
-    </form>
-</div>
-{% endblock %}
+    <div class="profile-bio">
+      <h3>About me</h3>
+      <p>{{ user.profile.bio|default:"No bio yet." }}</p>
+    </div>
+    <a href="{% url 'edit_profile' %}" class="edit-btn">Edit Profile</a>
+  </div>
+</body>
+</html>

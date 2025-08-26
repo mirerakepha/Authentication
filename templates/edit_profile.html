@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Edit</title>
+
+  <style>
+    body { font-family: sans-serif; margin: 2rem; background: #f8fafc; }
+    .form-container {
+      max-width: 600px;
+      margin: auto;
+      background: white;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    form div { margin-bottom: 1rem; }
+    label { display: block; font-weight: bold; margin-bottom: .5rem; }
+    input, textarea {
+      width: 100%; padding: .5rem;
+      border: 1px solid #ccc; border-radius: 5px;
+    }
+    button {
+      padding: .5rem 1rem;
+      background: #38bdf8; color: white;
+      border: none; border-radius: 6px;
+      cursor: pointer;
+    }
+    button:hover { background: #0ea5e9; }
+    .back-link {
+      display: inline-block;
+      margin-top: 1rem;
+      text-decoration: none;
+      color: #0ea5e9;
+    }
+  </style>
+
+
+</head>
+<body>
+
+<div class="form-container">
+    <h2>Edit Profile</h2>
+    <form method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{ u_form.as_p }}
+      {{ p_form.as_p }}
+      <button type="submit">Save Changes</button>
+    </form>
+    <a href="{% url 'profile' %}" class="back-link">← Back to profile</a>
+  </div>
+
+
+</body>
+</html>
